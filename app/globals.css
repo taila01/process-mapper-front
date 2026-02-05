@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  /* Aqui você registra as cores que definiu no tailwind.config se quiser usar no CSS */
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+}
+
+/* Estilos globais */
+@layer base {
+  html, body {
+    @apply bg-white dark:bg-[#030712] text-gray-900 dark:text-gray-100;
+    margin: 0;
+    padding: 0;
+  }
+}
