@@ -1,98 +1,82 @@
-🚀 Como Executar o Projeto
+Entendido! Vou montar o conteúdo completo para você, já incluindo a seção de tecnologias com ícones (badges) e uma estrutura profissional. É só copiar o bloco abaixo:
 
-Siga os passos abaixo para rodar o projeto localmente:
+---
 
-Pré-requisitos
+```markdown
+# 💻 Nome do Projeto
 
-Para executar este projeto, você precisará ter o Node.js instalado em sua máquina. O Node.js inclui o npm (Node Package Manager), que será usado para instalar as dependências do projeto.
+> Uma breve descrição do que o seu projeto faz e qual o objetivo principal dele.
 
-•
-Node.js: Certifique-se de ter a versão 18 ou superior. Você pode baixá-lo em nodejs.org.
+---
 
-Passo a Passo Detalhado
+## 🛠 Tecnologias Utilizadas
 
-1.
-Instale o Node.js (se ainda não tiver):
-Acesse nodejs.org e baixe a versão recomendada para o seu sistema operacional. Siga as instruções de instalação.
+O projeto foi desenvolvido com as seguintes tecnologias:
 
-2.
-Verifique a instalação do Node.js e npm:
-Abra seu terminal ou prompt de comando e execute:
+* ![Next.js](https://img.shields.io/badge/Next.js-000?style=for-the-badge&logo=next.js&logoColor=white)
+* ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+* ![React Flow](https://img.shields.io/badge/React%20Flow-FF0073?style=for-the-badge&logo=react&logoColor=white)
+* ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+* ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 
-Bash
+---
 
+## 🚀 Como Executar o Projeto
 
-node -v
-npm -v
+Siga os passos abaixo para configurar o ambiente e rodar o projeto localmente:
 
+### 📋 Pré-requisitos
 
+Para executar este projeto, você precisará ter o **Node.js** instalado (versão 18 ou superior).
 
-Certifique-se de que as versões exibidas são compatíveis (Node.js v18+).
+* **Node.js:** [Baixe no site oficial](https://nodejs.org/)
 
+### 🛠️ Passo a Passo Detalhado
 
+1. **Verifique a instalação**
+   Abra seu terminal e execute os comandos abaixo para garantir que o ambiente está pronto:
+   ```bash
+   node -v
+   npm -v
 
-3.
-Clone o repositório do projeto:
+```
 
-Bash
+2. **Clone o repositório**
+```bash
+git clone [https://github.com/seu-usuario/nome-do-projeto.git](https://github.com/seu-usuario/nome-do-projeto.git)
 
-
-git clone https://github.com/seu-usuario/nome-do-projeto.git
-
-
-
-
-
-4.
-Navegue até a pasta do projeto:
-
-Bash
+```
 
 
+3. **Acesse a pasta do projeto**
+```bash
 cd nome-do-projeto
 
+```
 
 
-
-
-5.
-Instale as dependências do projeto:
-Este comando lerá o arquivo package.json e instalará todas as bibliotecas necessárias, como React, Next.js, React Flow, etc.
-
-Bash
-
-
+4. **Instale as dependências**
+Este comando instalará todas as bibliotecas necessárias (React, Next.js, React Flow, etc):
+```bash
 npm install
-# ou, se preferir usar Yarn:
-# yarn install
-# ou, se preferir usar pnpm:
-# pnpm install
+
+```
 
 
+5. **Configure as variáveis de ambiente**
+Crie um arquivo chamado `.env.local` na raiz do projeto.
+> **Nota:** Use o arquivo `.env.example` como base para saber quais chaves são necessárias.
 
 
-
-6.
-Configure as variáveis de ambiente:
-Crie um arquivo chamado .env.local na raiz do projeto. Este arquivo conterá chaves de API e outras configurações sensíveis. Consulte o arquivo .env.example (se existir ) para saber quais variáveis são necessárias.
-
-7.
-Inicie o servidor de desenvolvimento:
-
-Bash
-
-
+6. **Inicie o servidor de desenvolvimento**
+```bash
 npm run dev
-# ou
-yarn dev
-# ou
-# pnpm dev
+
+```
 
 
+7. **Acesse no navegador**
+Abra seu navegador e acesse: [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000)
 
-
-
-8.
-Acesse o projeto no navegador:
-Após iniciar o servidor, abra seu navegador e acesse http://localhost:3000. O projeto estará rodando localmente.
+---
 
