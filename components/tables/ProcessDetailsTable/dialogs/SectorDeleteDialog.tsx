@@ -14,7 +14,6 @@ interface DeleteSectorDialogProps {
 }
 
 export default function DeleteSectorDialog({ sectorData, isOpen, onClose }: DeleteSectorDialogProps) {
-  // Pega o objeto completo do hook
   const deleteSectorMutation = useDeleteSector();
   const [isChecked, setIsChecked] = useState(false);
 

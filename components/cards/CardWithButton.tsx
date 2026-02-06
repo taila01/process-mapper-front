@@ -8,7 +8,7 @@ import { Button } from "@heroui/react";
 interface CardWithButtonProps {
   title?: any;
   aside?: React.ReactNode;
-  children: React.ReactNode; // Agora o TS vai aceitar conteúdo dentro do card
+  children: React.ReactNode; 
   className?: string;
   desc?: string;
   backButtonRoute?: string;

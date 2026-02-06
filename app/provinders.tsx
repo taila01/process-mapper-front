@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 import { HeroUIProvider } from "@heroui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// Cria o QueryClient
 const queryClient = new QueryClient();
 
 interface ProvidersProps {

@@ -1,82 +1,71 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Process, ProcessCreateData } from '@/services/interfaces/Process/ProcessInterface';
-import { useEditProcess } from '@/hooks/process/useUpdateProcess';
+import { SectorCreateData } from '@/services/interfaces/Sector/SectorInterface';
+import { useCreateSector } from '@/hooks/sector/useCreateSector';
 import { CustomModal } from '@/components/ui/HeroUI/Dialog';
 import Input from '@/components/form/input/InputField';
 import Label from '@/components/form/Label';
 import toast from 'react-hot-toast';
+import { FaPlus } from 'react-icons/fa';
 
-interface EditProcessDialogProps {
-  processData: Process | undefined;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function EditProcessDialog({ processData, isOpen, onClose }: EditProcessDialogProps) {
-  const editProcessMutation = useEditProcess();
-
-  const [formData, setFormData] = useState<ProcessCreateData>({
-    name: '',
-    description: '',
-    sector_id: '',
-    type: '',
-    status: 'active',
+export default function AddSectorDialog({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const createSectorMutation = useCreateSector();
+  const [formData, setFormData] = useState<SectorCreateData>({
+    name: '', description: '', type: 'Geral', status: 'active',
   });
 
-  useEffect(() => {
-    if (processData && isOpen) {
-      setFormData({
-        name: processData.name || '',
-        description: processData.description || '',
-        sector_id: processData.sector_id || '',
-        type: processData.type || '',
-        status: processData.status || 'active',
-      });
-    }
-  }, [processData, isOpen]);
+  useEffect(() => { if (!isOpen) setFormData({ name: '', description: '', type: 'Geral', status: 'active' }); }, [isOpen]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleUpdateProcess = async () => {
-    if (!formData.name?.trim()) {
-      toast.error("O nome do processo é obrigatório!");
-      return;
-    }
-
+  const handleSubmit = async () => {
+    if (!formData.name?.trim()) return toast.error("O nome é obrigatório!");
     try {
-      if (!processData?.id) return;
-      await editProcessMutation.mutateAsync({ id: processData.id, ...formData });
-      toast.success("Processo atualizado com sucesso!");
+      await createSectorMutation.mutateAsync(formData);
+      toast.success("Setor criado!");
       onClose();
-    } catch (error: any) {
-      toast.error(error.message || "Erro ao atualizar processo");
-    }
+    } catch (error: any) { toast.error(error.message); }
   };
-
-  if (!isOpen) return null;
 
   return (
     <CustomModal
       isOpen={isOpen}
       onClose={onClose}
-      title="Editar Processo"
-      backdrop="blur"
-      size="md"
-      primaryButtonText="Salvar"
-      secondaryButtonText="Cancelar"
-      onPrimaryAction={handleUpdateProcess}
+      title="Novo Setor"
+      primaryButtonText={createSectorMutation.isPending ? "Criando..." : "Criar"}
+      onPrimaryAction={handleSubmit}
+      endContent={<FaPlus />}
+      className="dark:bg-[#111827] rounded-[2.5rem] border border-neutral-800"
     >
-      <div className="space-y-4">
-        <Label>Nome</Label>
-        <Input type="text" name="name" value={formData.name || ''} onChange={handleInputChange} />
-
-        <Label>Descrição</Label>
-        <Input type="text" name="description" value={formData.description || ''} onChange={handleInputChange} />
+      <div className="space-y-5 p-2">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label className="mb-1 block">Nome</Label>
+            <Input
+              name="name"
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              className="rounded-2xl" 
+            />
+          </div>
+          <div>
+            <Label className="mb-1 block">Tipo</Label>
+            <Input
+              name="type"
+              value={formData.type}
+              onChange={(e) => setFormData({...formData, type: e.target.value})}
+              className="rounded-2xl"
+            />
+          </div>
+        </div>
+        <div>
+          <Label className="mb-1 block">Descrição</Label>
+          <Input
+            name="description"
+            value={formData.description}
+            onChange={(e) => setFormData({...formData, description: e.target.value})}
+            className="rounded-2xl"
+          />
+        </div>
       </div>
     </CustomModal>
   );

@@ -36,7 +36,6 @@ export default function SectorTable() {
     direction: "ascending",
   });
 
-  // Abrir modais
   const handleOpenModal = useCallback((sectorData: Sector, type: "view" | "delete" | "edit") => {
     setSectorData(sectorData);
     if (type === "view") setIsViewDialogOpen(true);
@@ -78,13 +77,6 @@ export default function SectorTable() {
         return <p className="font-semibold text-md">{cellValue ?? ""}</p>;
       case "createdAt":
         return <p className="font-semibold text-md">{formatDate(cellValue ?? "")}</p>;
-    //   case "isActive":
-    //     return (
-    //     //   <div className="flex items-center">
-    //     //     <span className={`inline-block w-2 h-2 rounded-full mr-2 ${sector.isActive ? "bg-green-500" : "bg-gray-400"}`} />
-    //     //     <span>{sector.isActive ? "Ativo" : "Inativo"}</span>
-    //     //   </div>
-    //     );
       case "actions":
         return (
           <TableActions

@@ -12,14 +12,16 @@ export default function ProcessContext() {
 
   return (
     <ComponentCard
-      title="Gerenciamento de Processos"
-      desc="Painel de gerenciamento de processos"
-      headerButton={{
-        text: "Criar Processo",
-        onClick: () => setIsOpen(true),
-        color: "secondary",
-      }}
-    >
+    title="Gerenciamento de Processos"
+    desc="Painel de gerenciamento de processos"
+    className="rounded-[2.5rem] border border-neutral-800 bg-[#111827]/50 shadow-2xl overflow-hidden"
+    headerButton={{
+      text: "Criar Processo",
+      onClick: () => setIsOpen(true),
+      color: "secondary", 
+      className: "rounded-full px-6 font-bold shadow-lg shadow-purple-500/20 hover:scale-105 transition-transform"
+    }}
+  >
       <div className="h-auto overflow-hidden" title="Gerenciamento de processos">
         <AnimatePresence mode="wait">
           <motion.div

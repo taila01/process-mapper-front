@@ -1,117 +1,84 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import ComponentCard from "@/components/common/ComponentCard";
-import SectorTable from "@/components/tables/SectorTable";
-import ProcessTable from "@/components/tables/ProcessTable";
-import SectorDialog from "@/components/tables/SectorTable/dialogs/SectorAddDialog";
-import ProcessAddDialog from "@/components/tables/ProcessTable/dialogs/ProcessAddDialog";
-
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from 'react';
+import { Select, SelectItem, Card, CardBody, Checkbox, CheckboxGroup } from "@heroui/react";
+import FlowCanvas from '@/components/flowcanvas/page';
+import axios from 'axios';
 
 export default function ProcessSectorDashboard() {
-  const [isProcessDialogOpen, setIsProcessDialogOpen] = useState(false);
-  const [isSectorDialogOpen, setIsSectorDialogOpen] = useState(false);
+  const [list, setList] = useState([]);
+  const [selectedId, setSelectedId] = useState<string>("");
+  const [visibleFields, setVisibleFields] = useState(["name", "description", "type", "status", "id"]);
 
-  const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
-  const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
-
-  const toggleSectorSelection = (id: string) => {
-    setSelectedSectors(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    );
-  };
-
-  const toggleProcessSelection = (id: string) => {
-    setSelectedProcesses(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    );
-  };
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/v1/processes?roots_only=true')
+      .then(res => {
+        const data = res.data?.data || res.data;
+        setList(Array.isArray(data) ? data : []);
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   return (
-    <div className="flex flex-col w-full min-h-screen p-6 bg-gray-50 dark:bg-gray-900 space-y-6">
+    <div className="flex flex-col gap-4 p-6 h-screen w-full bg-[#030712] overflow-hidden">
       
-      {/* Card de Setores */}
-      <ComponentCard
-        title="Gerenciamento de Setores"
-        desc="Painel de gerenciamento de setores"
-        headerButton={{
-          text: "Criar Setor",
-          onClick: () => setIsSectorDialogOpen(true),
-          color: "secondary",
-        }}
-      >
-        <div className="h-full overflow-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="sector-table"
-              initial={{ x: -300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 300, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 12 }}
+      <Card className="border border-neutral-800 bg-[#111827] shadow-none z-[100] relative">
+        <CardBody className="flex flex-row items-end justify-between gap-10 p-6 overflow-visible">
+          
+          <div className="flex-1 max-w-sm">
+            <Select
+              label="Fluxo Principal"
+              labelPlacement="outside"
+              placeholder="Selecione no banco..."
+              variant="bordered"
+              popoverProps={{
+                portalContainer: typeof document !== 'undefined' ? document.body : undefined,
+              }}
+              selectedKeys={selectedId ? [selectedId] : []}
+              onChange={(e) => setSelectedId(e.target.value)}
+              classNames={{
+                trigger: "border-neutral-700 h-12 bg-[#111827]",
+                value: "text-white font-medium",
+                label: "text-neutral-400 font-bold mb-2",
+                popoverContent: "bg-[#111827] border border-neutral-800 text-white"
+              }}
             >
-              <SectorTable
-                selectedItems={selectedSectors}
-                onToggleItem={toggleSectorSelection}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-        <SectorDialog
-          isOpen={isSectorDialogOpen}
-          onClose={() => setIsSectorDialogOpen(false)}
-        />
-      </ComponentCard>
+              {list.map((item: any) => (
+                <SelectItem key={item.id} textValue={item.name} className="text-white">
+                  {item.name}
+                </SelectItem>
+              ))}
+            </Select>
+          </div>
 
-      {/* Card de Processos */}
-      <ComponentCard
-        title="Gerenciamento de Processos"
-        desc="Painel de gerenciamento de processos"
-        headerButton={{
-          text: "Criar Processo",
-          onClick: () => setIsProcessDialogOpen(true),
-          color: "secondary",
-        }}
-      >
-        <div className="h-full overflow-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="process-table"
-              initial={{ x: -300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 300, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 12 }}
+          <div className="flex flex-col gap-3 min-w-[450px] p-4 border border-neutral-800 rounded-2xl bg-[#030712]">
+            <p className="text-[10px] text-neutral-500 uppercase font-black tracking-widest">Campos do Workflow</p>
+            <CheckboxGroup 
+              orientation="horizontal" 
+              value={visibleFields} 
+              onValueChange={setVisibleFields}
+              color="primary"
+              classNames={{ wrapper: "gap-6" }}
             >
-              <ProcessTable
-                selectedItems={selectedProcesses}
-                onToggleItem={toggleProcessSelection}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-        <ProcessAddDialog
-          isOpen={isProcessDialogOpen}
-          onClose={() => setIsProcessDialogOpen(false)}
-        />
-      </ComponentCard>
-
-      {/* Card de itens selecionados */}
-      <ComponentCard
-        title="Itens Selecionados"
-        desc="Resumo dos setores e processos selecionados"
-      >
-        <div className="space-y-2">
-          <div>
-            <span className="font-medium">Setores Selecionados: </span>
-            {selectedSectors.length > 0 ? selectedSectors.join(", ") : "Nenhum"}
+              <Checkbox value="description" classNames={{ label: "text-xs text-neutral-300" }}>Descrição</Checkbox>
+              <Checkbox value="type" classNames={{ label: "text-xs text-neutral-300" }}>Tipo</Checkbox>
+              <Checkbox value="status" classNames={{ label: "text-xs text-neutral-300" }}>Status</Checkbox>
+              <Checkbox value="id" classNames={{ label: "text-xs text-neutral-300" }}>UUID</Checkbox>
+            </CheckboxGroup>
           </div>
-          <div>
-            <span className="font-medium">Processos Selecionados: </span>
-            {selectedProcesses.length > 0 ? selectedProcesses.join(", ") : "Nenhum"}
-          </div>
-        </div>
-      </ComponentCard>
 
+        </CardBody>
+      </Card>
+
+      <div className="flex-1 rounded-3xl border border-neutral-800 bg-black/40 overflow-hidden relative z-0">
+        {selectedId ? (
+          <FlowCanvas processId={selectedId} visibleFields={visibleFields} />
+        ) : (
+          <div className="flex items-center justify-center h-full text-neutral-600 text-sm italic">
+            Aguardando seleção de fluxo...
+          </div>
+        )}
+      </div>
     </div>
   );
 }

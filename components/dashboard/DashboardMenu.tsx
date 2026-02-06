@@ -17,22 +17,22 @@ interface DashboardMenuProps {
 export default function DashboardMenu({ activeKey, onTabChange }: DashboardMenuProps) {
 
   const menuActions = [
-    { key: 'setor', label: 'Setor', icon: HiOutlineSquares2X2 },
-    { key: 'process', label: 'Workflow', icon: HiOutlineCpuChip }, // Mudamos para 'Workflow' para ficar claro
-    { key: 'details', label: 'Process Details', icon: HiOutlineDocumentText },
-    { key: 'filtro', label: 'Filtro', icon: HiOutlineAdjustmentsHorizontal }
+    { key: 'setor', label: 'Setores', icon: HiOutlineSquares2X2 },
+    { key: 'process', label: 'Workflow', icon: HiOutlineCpuChip }, 
+    { key: 'details', label: 'Detalhes', icon: HiOutlineDocumentText },
+    { key: 'filtro', label: 'Configurações', icon: HiOutlineAdjustmentsHorizontal }
   ];
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/3 backdrop-blur-md p-4 flex flex-col gap-2 min-w-60 shadow-xl">
+    <div className="rounded-[2.5rem] border border-gray-200 bg-white/80 dark:border-purple-500/10 dark:bg-[#0b0f1a]/80 backdrop-blur-xl p-5 flex flex-col gap-3 min-w-[280px] shadow-2xl">
       
-      <div className="pb-3 mb-2 border-b border-gray-200 dark:border-gray-800">
-        <h3 className="text-base font-medium text-gray-800 dark:text-white/90">
-          Navigation
+      <div className="px-4 pb-4 mb-2 border-b border-gray-100 dark:border-white/5">
+        <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400 dark:text-purple-300/40">
+          Menu Principal
         </h3>
       </div>
 
-      <nav className="flex flex-col gap-1.5">
+      <nav className="flex flex-col gap-2">
         {menuActions.map((item) => {
           const Icon = item.icon;
           const isActive = activeKey === item.key;
@@ -40,20 +40,39 @@ export default function DashboardMenu({ activeKey, onTabChange }: DashboardMenuP
           return (
             <Button
               key={item.key}
-              onPress={() => onTabChange(item.key)} // Chama a função que vem do pai
-              className={`justify-start gap-4 h-12 w-full transition-all duration-300 ${
+              onPress={() => onTabChange(item.key)}
+              className={`relative justify-start gap-4 h-14 w-full rounded-2xl transition-all duration-400 group ${
                 isActive 
-                  ? "bg-brand-500/10 text-brand-600 dark:text-brand-300 border border-brand-300/30 dark:border-brand-700/50 shadow-sm" 
-                  : "bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5"
+                  ? "bg-purple-600/10 text-purple-600 dark:text-purple-400 shadow-[0_0_20px_rgba(147,51,234,0.1)]" 
+                  : "bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-purple-500/5"
               }`}
               variant="flat"
               startContent={
-                <Icon className={`w-5 h-5 ${isActive ? "text-brand-600 dark:text-brand-400" : "text-gray-400"}`} />
+                <div className={`p-2 rounded-xl transition-all duration-300 ${
+                  isActive 
+                    ? "bg-purple-600 text-white shadow-lg shadow-purple-600/30 scale-110" 
+                    : "bg-gray-100 dark:bg-white/5 group-hover:bg-purple-500/10 group-hover:text-purple-400"
+                }`}>
+                  <Icon className="w-5 h-5" />
+                </div>
               }
             >
-              <span className="text-sm font-medium tracking-wide">
-                {item.label}
-              </span>
+              <div className="flex flex-col items-start">
+                <span className={`text-sm font-bold tracking-tight transition-colors ${
+                  isActive ? "text-purple-600 dark:text-purple-300" : "text-gray-700 dark:text-gray-300"
+                }`}>
+                  {item.label}
+                </span>
+                {isActive && (
+                  <span className="text-[10px] text-purple-500/60 font-medium animate-appearance-in">
+                    Visualizando agora
+                  </span>
+                )}
+              </div>
+
+              {isActive && (
+                <div className="absolute right-3 w-1.5 h-6 bg-purple-600 rounded-full shadow-[0_0_10px_rgba(147,51,234,0.5)]" />
+              )}
             </Button>
           );
         })}

@@ -2,12 +2,12 @@ import React from "react";
 
 interface CheckboxProps {
   name?: string;
-  label?: string; // Optional label for the checkbox
-  checked: boolean | undefined; // Checked state
+  label?: string; 
+  checked: boolean | undefined; 
   className?: string;
-  id?: string; // Unique ID for the checkbox
-  onChange: (checked: boolean) => void; // Change handler
-  disabled?: boolean; // Disabled state
+  id?: string; 
+  onChange: (checked: boolean) => void; 
+  disabled?: boolean; 
 }
 
 const Checkbox = ({
