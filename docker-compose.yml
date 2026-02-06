@@ -1,9 +1,0 @@
-services:
-  app:
-    build: .
-    container_name: process-mapper-front
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://sua-api.com # Substitua pela URL real da sua API
-    restart: always
