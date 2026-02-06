@@ -1,15 +1,9 @@
-version: '3.8'
-
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: process-mapper-front
-    restart: always
     ports:
       - "3000:3000"
-    env_file:
-      - .env
     environment:
-      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://sua-api.com # Substitua pela URL real da sua API
+    restart: always
