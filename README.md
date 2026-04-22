@@ -1,82 +1,91 @@
-Entendido! Vou montar o conteúdo completo para você, já incluindo a seção de tecnologias com ícones (badges) e uma estrutura profissional. É só copiar o bloco abaixo:
+# Process Mapper Ecosystem
+
+> Solução completa para mapeamento de processos com **API em Laravel** e **frontend em React/Next.js**.
 
 ---
 
-```markdown
-# 💻 Nome do Projeto
-
-> Uma breve descrição do que o seu projeto faz e qual o objetivo principal dele.
-
----
-
-## 🛠 Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 O projeto foi desenvolvido com as seguintes tecnologias:
 
+* ![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
 * ![Next.js](https://img.shields.io/badge/Next.js-000?style=for-the-badge&logo=next.js&logoColor=white)
 * ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 * ![React Flow](https://img.shields.io/badge/React%20Flow-FF0073?style=for-the-badge&logo=react&logoColor=white)
 * ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-* ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+* ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 ---
 
-## 🚀 Como Executar o Projeto
+## Como Executar o Projeto
 
-Siga os passos abaixo para configurar o ambiente e rodar o projeto localmente:
+Siga os passos abaixo para configurar o ambiente e rodar o projeto localmente.
 
-### 📋 Pré-requisitos
+---
 
-Para executar este projeto, você precisará ter o **Node.js** instalado (versão 18 ou superior).
+## Backend (Laravel + Docker)
 
-* **Node.js:** [Baixe no site oficial](https://nodejs.org/)
+### Pré-requisitos
 
-### 🛠️ Passo a Passo Detalhado
+- Docker  
+- Git  
 
-1. **Verifique a instalação**
-   Abra seu terminal e execute os comandos abaixo para garantir que o ambiente está pronto:
-   ```bash
-   node -v
-   npm -v
+---
 
-```
+### Passo a Passo
 
-2. **Clone o repositório**
+1. **Clone o repositório**
 ```bash
-git clone [https://github.com/seu-usuario/nome-do-projeto.git](https://github.com/seu-usuario/nome-do-projeto.git)
+git clone https://github.com/seu-usuario/process-mapper-api.git
+cd process-mapper-api
+Configure o ambiente
+cp .env.example .env
 
-```
+Ajuste no .env:
 
+APP_PORT=8080
+FORWARD_DB_PORT=33060
+Suba os containers
+composer install
+./vendor/bin/sail up -d
 
-3. **Acesse a pasta do projeto**
-```bash
-cd nome-do-projeto
+No Linux, se houver conflito com MySQL:
 
-```
-
-
-4. **Instale as dependências**
-Este comando instalará todas as bibliotecas necessárias (React, Next.js, React Flow, etc):
-```bash
+sudo systemctl stop mysql
+Instale dependências e gere a chave
+./vendor/bin/sail composer install
+./vendor/bin/sail php artisan key:generate
+Importe o banco de dados
+./vendor/bin/sail mysql < database/backup_completo.sql
+Frontend (React / Next.js)
+Pré-requisitos
+Node.js 18+
+Passo a Passo
+Acesse a pasta do frontend
+cd nome-da-pasta-frontend
+Verifique a instalação
+node -v
+npm -v
+Instale as dependências
 npm install
-
-```
-
-
-5. **Configure as variáveis de ambiente**
-Crie um arquivo chamado `.env.local` na raiz do projeto.
-> **Nota:** Use o arquivo `.env.example` como base para saber quais chaves são necessárias.
-
-
-6. **Inicie o servidor de desenvolvimento**
-```bash
+Configure variáveis de ambiente
+Crie o arquivo .env.local com base no .env.example.
+Inicie o projeto
 npm run dev
-
-```
-
-
-7. **Acesse no navegador**
-Abra seu navegador e acesse: [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000)
-
----
-
+Acesse no navegador
+http://localhost:3000
+Acessos
+Frontend: http://localhost:3000
+Backend: http://localhost:8080
+Banco: 127.0.0.1:33060
+Usuário: sail
+Senha: password
+Comandos Úteis
+Backend
+./vendor/bin/sail down
+./vendor/bin/sail php artisan migrate
+./vendor/bin/sail ps
+Frontend
+npm run build
+rm -rf node_modules package-lock.json && npm install
+Desenvolvido por Taila
